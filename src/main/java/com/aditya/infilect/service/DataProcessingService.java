@@ -166,6 +166,46 @@ public class DataProcessingService {
         }
     }
 
+    public void processStoreMaster500K() {
+        String absolutePath = fileService.getFilePath("STORES_MASTER_500K");
+        if (absolutePath == null) throw new IllegalStateException("STORE master file not uploaded yet");
+        processingStatus.put("STORES_MASTER_500K", "PROCESSING");
+        log.info("Processing STORE master 500K file from static directory: {}", absolutePath);
+
+        Path csvPath = Paths.get(absolutePath);
+        int successCount = 0;
+        int errorCount = 0;
+        int rowNumber = 0;
+
+        log.info("Starting Store Master 500k import from: {}", "STORE_MASTER");
+        try (CSVReader reader = new CSVReader(Files.newBufferedReader(csvPath, StandardCharsets.UTF_8))) {
+            reader.readNext();
+            String[] row;
+            long startTime = System.currentTimeMillis();
+            while ((row = reader.readNext()) != null) {
+                rowNumber++;
+                try {
+                    StoreMasterDTO storeMasterDTO = new StoreMasterDTO(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], (row[10]), (row[11]));
+                    StoreMaster store = this.storeMasterService.createStore(storeMasterDTO);
+                    log.debug("STORES_MASTER_500K Saved row {}: {}", rowNumber, store.getStoreId());
+                    successCount++;
+                } catch (Exception e) {
+                    errorCount++;
+                    errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
+                }
+                entityManager.clear();
+                if (rowNumber % 1000 == 0)
+                    log.info("STORES_MASTER_500K.csv-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
+            }
+            long duration = System.currentTimeMillis() - startTime;
+            errorLogService.logSummary(absolutePath, rowNumber, successCount, errorCount, duration);
+            log.info("Import completed for STORES_MASTER_500K.csv - Total: {}, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
+        } catch (Exception e) {
+            log.error("STORES_MASTER_500K Import failed", e);
+        }
+    }
+
+
     public boolean isLargeFileReady() {
         return fileService.isFileUploaded("STORES_MASTER_500K");
     }
@@ -173,5 +213,4 @@ public class DataProcessingService {
     public Map<String, String> getProcessingStatus() {
         return new HashMap<>(processingStatus);
     }
-
 }

@@ -37,7 +37,6 @@ public class UploadingFileController {
         try {
             validateFile(file, "stores_master_500K.csv");
             log.info("Receiving large file of size: {} MB", file.getSize() / (1024 * 1024));
-
             FileUploadResponse response = fileService.saveFile(file, "STORES_MASTER_500K");
             response.setMessage("Large file (68MB) uploaded successfully to static directory. Ready for processing when triggered.");
             return ResponseEntity.ok(response);

@@ -47,6 +47,15 @@ public class DataProcessingController {
             return ResponseEntity.badRequest().body(Map.of("status", "ERROR", "message", e.getMessage()));
         }
     }
+    @PostMapping("/store-master-500K")
+    public ResponseEntity<Map<String, String>> processStoreMaster500K() {
+        try {
+            dataProcessingService.processStoreMaster500K();
+            return ResponseEntity.ok(Map.of("status", "SUCCESS", "message", "Store master 500K processed"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("status", "ERROR", "message", e.getMessage()));
+        }
+    }
 
     @GetMapping("/status")
     public ResponseEntity<Map<String, String>> getProcessingStatus() {
