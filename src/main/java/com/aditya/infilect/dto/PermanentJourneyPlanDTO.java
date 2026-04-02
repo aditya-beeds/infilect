@@ -11,5 +11,5 @@ public class PermanentJourneyPlanDTO {
     private String username;
     private String store_id;
     private String date;
-    private Boolean is_active;
+    private String is_active;
 }

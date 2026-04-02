@@ -1,12 +1,20 @@
 package com.aditya.infilect.service;
 
+import com.aditya.infilect.dto.PermanentJourneyPlanDTO;
+import com.aditya.infilect.dto.StoreMasterDTO;
+import com.aditya.infilect.dto.UserMasterDTO;
 import com.aditya.infilect.storemasterdb.repo.*;
 import com.aditya.infilect.storeusermapdb.entity.PermanentJourneyPlan;
 import com.aditya.infilect.storeusermapdb.repo.PermanentJourneyPlanRepository;
 import com.aditya.infilect.usermasterdb.entity.UserMaster;
 import com.aditya.infilect.usermasterdb.repo.UserMasterRepository;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.aditya.infilect.storemasterdb.entity.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +39,16 @@ public class DataProcessingService {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private StoreMasterService storeMasterService;
+
+    @Autowired
+    private UserMasterService userMasterService;
+    @Autowired
+    private PermanentJourneyPlanService permanentJourneyPlanService;
+
+
     @Autowired
     private UserMasterRepository userRepository;
     @Autowired
@@ -44,214 +67,132 @@ public class DataProcessingService {
     private CountriesRepository countryRepository;
     @Autowired
     private RegionsRepository regionRepository;
+    @Autowired
+    private ErrorLogService errorLogService;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     // Track processing status
     private final Map<String, String> processingStatus = new HashMap<>();
 
     @Transactional
+    @Async("taskExecutor")
     public void processStoreMaster() throws IOException {
         String absolutePath = fileService.getFilePath("STORE_MASTER");
-        if (absolutePath == null) {
-            throw new IllegalStateException("Store master file not uploaded yet");
-        }
-
+        if (absolutePath == null) throw new IllegalStateException("STORE master file not uploaded yet");
         processingStatus.put("STORE_MASTER", "PROCESSING");
-        log.info("Processing store master file from static directory: {}", absolutePath);
+        log.info("Processing STORE master file from static directory: {}", absolutePath);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(absolutePath))) {
-            String line;
-            boolean isFirstLine = true;
-            int count = 0;
-            int errorCount = 0;
+        Path csvPath = Paths.get(absolutePath);
+        int successCount = 0;
+        int errorCount = 0;
+        int rowNumber = 0;
 
-            while ((line = br.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue;
-                }
-
+        log.info("Starting Store Master import from: {}", "STORE_MASTER");
+        try (CSVReader reader = new CSVReader(Files.newBufferedReader(csvPath, StandardCharsets.UTF_8))) {
+            reader.readNext();
+            String[] row;
+            long startTime = System.currentTimeMillis();
+            while ((row = reader.readNext()) != null) {
+                rowNumber++;
                 try {
-                    String[] values = line.split(",");
-                    if (values.length >= 6) {
-                        StoreMaster store = new StoreMaster();
-                        store.setStoreId(values[0].trim());
-                        store.setStoreExternalId(values[1].trim());
-                        store.setName(values[2].trim());
-                        store.setTitle(values[3].trim());
-
-                        // Handle brand
-                        if (values.length > 4 && !values[4].trim().isEmpty()) {
-                            StoreBrands brand = storeBrandRepository.findByNameIgnoreCase(values[4].trim())
-                                    .orElseGet(() -> {
-                                        StoreBrands newBrand = new StoreBrands();
-                                        newBrand.setName(values[4].trim());
-                                        return storeBrandRepository.save(newBrand);
-                                    });
-                            store.setStoreBrands(brand);
-                        }
-
-                        // Handle type
-                        if (values.length > 5 && !values[5].trim().isEmpty()) {
-                            StoreTypes type = storeTypeRepository.findByNameIgnoreCase(values[5].trim())
-                                    .orElseGet(() -> {
-                                        StoreTypes newType = new StoreTypes();
-                                        newType.setName(values[5].trim());
-                                        return storeTypeRepository.save(newType);
-                                    });
-                            store.setStoreType(type);
-                        }
-
-                        storeRepository.save(store);
-                        count++;
-                    }
+                    StoreMasterDTO storeMasterDTO = new StoreMasterDTO(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], Float.parseFloat(row[10]), Float.parseFloat(row[11]));
+                    StoreMaster store = this.storeMasterService.createStore(storeMasterDTO);
+                    log.debug("Saved row {}: {}", rowNumber, store.getStoreId());
+                    successCount++;
                 } catch (Exception e) {
                     errorCount++;
-                    log.error("Error processing line: {}", line, e);
+                    errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
                 }
-
-                if (count % 1000 == 0) {
-                    log.info("Processed {} store records", count);
-                }
+                entityManager.clear();
+                if (rowNumber % 1000 == 0) log.info("StoreMasterData.csv-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
             }
-            processingStatus.put("STORE_MASTER", "COMPLETED");
-            log.info("Completed processing {} store records with {} errors", count, errorCount);
+            long duration = System.currentTimeMillis() - startTime;
+            errorLogService.logSummary(absolutePath, rowNumber, successCount, errorCount, duration);
+            log.info("Import completed for StoreMasterData.csv - Total: {}, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
         } catch (Exception e) {
-            processingStatus.put("STORE_MASTER", "FAILED");
-            throw e;
+            log.error("Import failed", e);
         }
     }
 
     @Transactional
+    @Async("taskExecutor")
     public void processUserMaster() throws IOException {
         String absolutePath = fileService.getFilePath("USER_MASTER");
-        if (absolutePath == null) {
-            throw new IllegalStateException("User master file not uploaded yet");
-        }
-
+        if (absolutePath == null) throw new IllegalStateException("USER master file not uploaded yet");
         processingStatus.put("USER_MASTER", "PROCESSING");
-        log.info("Processing user master file from static directory: {}", absolutePath);
+        log.info("Processing USER master file from static directory: {}", absolutePath);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(absolutePath))) {
-            String line;
-            boolean isFirstLine = true;
-            int count = 0;
-            int errorCount = 0;
+        Path csvPath = Paths.get(absolutePath);
+        int successCount = 0;
+        int errorCount = 0;
+        int rowNumber = 0;
 
-            while ((line = br.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue;
-                }
-
+        log.info("Starting USER Master import from: {}", "USER_MASTER");
+        try (CSVReader reader = new CSVReader(Files.newBufferedReader(csvPath, StandardCharsets.UTF_8))) {
+            reader.readNext();
+            String[] row;
+            long startTime = System.currentTimeMillis();
+            while ((row = reader.readNext()) != null) {
+                rowNumber++;
                 try {
-                    String[] values = line.split(",");
-                    if (values.length >= 5) {
-                        UserMaster user = new UserMaster();
-                        user.setUsername(values[0].trim());
-                        user.setFirstName(values[1].trim());
-                        user.setLastName(values[2].trim());
-                        user.setEmail(values[3].trim());
-
-                        if (values.length > 4 && !values[4].trim().isEmpty()) {
-                            user.setUserType(Integer.parseInt(values[4].trim()));
-                        }
-
-                        userRepository.save(user);
-                        count++;
-                    }
+                    UserMasterDTO userMasterDTO= new UserMasterDTO(row[0], row[1], row[2], row[3], Integer.parseInt(row[4]),Long.parseLong( row[5]), row[6], row[7]);
+                    UserMaster user = this.userMasterService.createUser(userMasterDTO);
+                    log.debug("USER-MASTER-Saved row {}: {}", rowNumber, user.getUsername());
+                    successCount++;
                 } catch (Exception e) {
                     errorCount++;
-                    log.error("Error processing line: {}", line, e);
+                    errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
                 }
-
-                if (count % 1000 == 0) {
-                    log.info("Processed {} user records", count);
-                }
+                entityManager.clear();
+                if (rowNumber % 1000 == 0) log.info("USER-MASTER-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
             }
-            processingStatus.put("USER_MASTER", "COMPLETED");
-            log.info("Completed processing {} user records with {} errors", count, errorCount);
+            long duration = System.currentTimeMillis() - startTime;
+            errorLogService.logSummary(absolutePath, rowNumber, successCount, errorCount, duration);
+            log.info("USER-MASTER Import completed - Total: {}, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
         } catch (Exception e) {
-            processingStatus.put("USER_MASTER", "FAILED");
-            throw e;
+            log.error("USER-MASTER Import failed", e);
         }
     }
 
     @Transactional
+    @Async("taskExecutor")
     public void processStoreUserMapping() throws IOException {
         String absolutePath = fileService.getFilePath("STORE_USER_MAPPING");
-        if (absolutePath == null) {
-            throw new IllegalStateException("Store user mapping file not uploaded yet");
-        }
-
+        if (absolutePath == null) throw new IllegalStateException("STORE_USER_MAPPING file not uploaded yet");
         processingStatus.put("STORE_USER_MAPPING", "PROCESSING");
-        log.info("Processing store user mapping file from static directory: {}", absolutePath);
+        log.info("Processing STORE_USER_MAPPING  file from static directory: {}", absolutePath);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(absolutePath))) {
-            String line;
-            boolean isFirstLine = true;
-            int count = 0;
-            int errorCount = 0;
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        Path csvPath = Paths.get(absolutePath);
+        int successCount = 0;
+        int errorCount = 0;
+        int rowNumber = 0;
 
-            while ((line = br.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue;
-                }
-
+        log.info("Starting STORE_USER_MAPPING import from: {}", "STORE_USER_MAPPING");
+        try (CSVReader reader = new CSVReader(Files.newBufferedReader(csvPath, StandardCharsets.UTF_8))) {
+            reader.readNext();
+            String[] row;
+            long startTime = System.currentTimeMillis();
+            while ((row = reader.readNext()) != null) {
+                rowNumber++;
                 try {
-                    String[] values = line.split("\t");
-                    if (values.length >= 4) {
-                        // Find user by username
-                        UserMaster user = userRepository.findByUsername(values[0].trim())
-                                .orElse(null);
-
-                        // Find store by store_id
-                        StoreMaster store = storeRepository.findByStoreId(values[1].trim())
-                                .orElse(null);
-
-                        if (user != null && store != null) {
-                            PermanentJourneyPlan plan = new PermanentJourneyPlan();
-                            plan.setUserMaster(user);
-                            plan.setStoreMaster(store);
-                            plan.setDate(LocalDate.parse(values[2].trim(), dateFormatter));
-                            plan.setIsActive(Boolean.parseBoolean(values[3].trim()));
-
-                            planRepository.save(plan);
-                            count++;
-                        } else {
-                            errorCount++;
-                            log.warn("User or store not found - User: {}, Store: {}", values[0], values[1]);
-                        }
-                    }
+                    PermanentJourneyPlanDTO permanentJourneyPlanDTO = new PermanentJourneyPlanDTO(row[0], row[1], row[2], row[3]);
+                    PermanentJourneyPlan plan = this.permanentJourneyPlanService.createPlan(permanentJourneyPlanDTO);
+                    log.debug("STORE_USER_MAPPING-Saved row {}: {}:{}:{}", rowNumber, plan.getUserMaster().getUsername(),plan.getStoreMaster().getStoreId(),plan.getDate());
+                    successCount++;
                 } catch (Exception e) {
                     errorCount++;
-                    log.error("Error processing line: {}", line, e);
+                    errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
                 }
-
-                if (count % 1000 == 0) {
-                    log.info("Processed {} mapping records", count);
-                }
+                entityManager.clear();
+                if (rowNumber % 1000 == 0) log.info("STORE_USER_MAPPING-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
             }
-            processingStatus.put("STORE_USER_MAPPING", "COMPLETED");
-            log.info("Completed processing {} mapping records with {} errors", count, errorCount);
+            long duration = System.currentTimeMillis() - startTime;
+            errorLogService.logSummary(absolutePath, rowNumber, successCount, errorCount, duration);
+            log.info("STORE_USER_MAPPING Import completed - Total: {}, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
         } catch (Exception e) {
-            processingStatus.put("STORE_USER_MAPPING", "FAILED");
-            throw e;
+            log.error("STORE_USER_MAPPING Import failed", e);
         }
-    }
-
-    // For large 500K file - will be used later
-    public void processLargeStoreFile() throws IOException {
-        String absolutePath = fileService.getFilePath("STORES_MASTER_500K");
-        if (absolutePath == null) {
-            throw new IllegalStateException("Large store master file (500K) not uploaded yet");
-        }
-
-        log.info("Large file ready for processing from static directory: {}", absolutePath);
-        log.info("File size: {} bytes", new java.io.File(absolutePath).length());
-        processingStatus.put("STORES_MASTER_500K", "READY");
-        // This method will be implemented later for large file processing
     }
 
     public boolean isLargeFileReady() {

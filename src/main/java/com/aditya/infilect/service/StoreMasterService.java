@@ -48,7 +48,7 @@ public class StoreMasterService {
             store.setStoreBrands(brand);
         }
 
-        // Handle Store Type
+
         if (dto.getStoreType() != null && !dto.getStoreType().trim().isEmpty()) {
             String typeName = dto.getStoreType().trim();
             StoreTypes type = storeTypeRepository.findByNameIgnoreCase(typeName)
@@ -60,7 +60,6 @@ public class StoreMasterService {
             store.setStoreType(type);
         }
 
-        // Handle City
         if (dto.getCity() != null && !dto.getCity().trim().isEmpty()) {
             String cityName = dto.getCity().trim();
             Cities city = cityRepository.findByNameIgnoreCase(cityName)
@@ -108,7 +107,7 @@ public class StoreMasterService {
             store.setRegion(region);
         }
 
-        return storeMasterRepository.save(store);
+        return storeMasterRepository.saveAndFlush(store);
     }
 
 }

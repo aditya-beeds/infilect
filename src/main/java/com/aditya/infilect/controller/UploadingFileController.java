@@ -76,7 +76,7 @@ public class UploadingFileController {
         return ResponseEntity.ok(fileService.getAllUploadedFiles());
     }
 
-    @GetMapping("/large-file/ready")
+    @GetMapping("/large-file-ready")
     public ResponseEntity<Boolean> isLargeFileReady() {
         return ResponseEntity.ok(fileService.isFileUploaded("STORES_MASTER_500K"));
     }

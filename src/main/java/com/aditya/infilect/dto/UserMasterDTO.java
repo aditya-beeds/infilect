@@ -9,11 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 public class UserMasterDTO {
     private String username;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String email;
-    private Integer user_type;
-    private Long phone_number;
-    private String supervisor_username;
-    private String is_active;
+    private Integer userType;
+    private Long phoneNumber;
+    private String supervisorUsername;
+    private String isActive;
 }

@@ -1,7 +1,6 @@
 package com.aditya.infilect.service;
 
 import com.aditya.infilect.dto.PermanentJourneyPlanDTO;
-import com.aditya.infilect.service.dto.PermanentJourneyPlanDTO;
 import com.aditya.infilect.storemasterdb.entity.StoreMaster;
 import com.aditya.infilect.storemasterdb.repo.StoreMasterRepository;
 import com.aditya.infilect.storeusermapdb.entity.PermanentJourneyPlan;
@@ -42,7 +41,6 @@ public class PermanentJourneyPlanService {
         if (byStoreId.isEmpty()) {
             throw new IllegalArgumentException("Store not found with id: " + plan.getStore_id());
         }
-
 
         DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("M/dd/yyyy");
         LocalDate date = LocalDate.parse(plan.getDate(), formatter4);
