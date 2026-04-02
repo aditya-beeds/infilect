@@ -37,14 +37,14 @@ public class PermanentJourneyPlanService {
         }
 
         // Verify store exists
-        Optional<StoreMaster> byStoreId = storeRepository.findByStoreId(plan.getStore_id());
+        Optional<StoreMaster> byStoreId = storeRepository.findByStoreId(plan.getStoreId());
         if (byStoreId.isEmpty()) {
-            throw new IllegalArgumentException("Store not found with id: " + plan.getStore_id());
+            throw new IllegalArgumentException("Store not found with id: " + plan.getStoreId());
         }
 
-        DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("M/dd/yyyy");
+        DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(plan.getDate(), formatter4);
-        PermanentJourneyPlan permanentJourneyPlan = new PermanentJourneyPlan(null, byUsername.get(), byStoreId.get(), date, plan.getIs_active(), null, null);
+        PermanentJourneyPlan permanentJourneyPlan = new PermanentJourneyPlan(null, byUsername.get(), byStoreId.get(), date, plan.getIsActive().equalsIgnoreCase("true"), null, null);
         return planRepository.save(permanentJourneyPlan);
     }
 

@@ -46,7 +46,6 @@ public class PermanentJourneyPlan {
         @OnDelete(action = OnDeleteAction.CASCADE)
         private StoreMaster storeMaster;
 
-        @PastOrPresent(message = "Date cannot be in the future")
         @Column(name = "date")
         private LocalDate date;
 

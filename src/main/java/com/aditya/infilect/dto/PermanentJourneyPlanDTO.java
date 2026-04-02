@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class PermanentJourneyPlanDTO {
     private String username;
-    private String store_id;
+    private String storeId;
     private String date;
-    private String is_active;
+    private String isActive;
 }

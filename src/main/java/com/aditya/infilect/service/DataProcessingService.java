@@ -5,11 +5,8 @@ import com.aditya.infilect.dto.StoreMasterDTO;
 import com.aditya.infilect.dto.UserMasterDTO;
 import com.aditya.infilect.storemasterdb.repo.*;
 import com.aditya.infilect.storeusermapdb.entity.PermanentJourneyPlan;
-import com.aditya.infilect.storeusermapdb.repo.PermanentJourneyPlanRepository;
 import com.aditya.infilect.usermasterdb.entity.UserMaster;
-import com.aditya.infilect.usermasterdb.repo.UserMasterRepository;
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -18,16 +15,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.aditya.infilect.storemasterdb.entity.*;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,43 +31,20 @@ public class DataProcessingService {
 
     @Autowired
     private FileService fileService;
-
     @Autowired
     private StoreMasterService storeMasterService;
-
     @Autowired
     private UserMasterService userMasterService;
     @Autowired
     private PermanentJourneyPlanService permanentJourneyPlanService;
-
-
-    @Autowired
-    private UserMasterRepository userRepository;
-    @Autowired
-    private StoreMasterRepository storeRepository;
-    @Autowired
-    private PermanentJourneyPlanRepository planRepository;
-    @Autowired
-    private StoreBrandsRepository storeBrandRepository;
-    @Autowired
-    private StoreTypesRepository storeTypeRepository;
-    @Autowired
-    private CitiesRepository cityRepository;
-    @Autowired
-    private StatesRepository stateRepository;
-    @Autowired
-    private CountriesRepository countryRepository;
-    @Autowired
-    private RegionsRepository regionRepository;
     @Autowired
     private ErrorLogService errorLogService;
     @PersistenceContext
     private EntityManager entityManager;
 
-    // Track processing status
     private final Map<String, String> processingStatus = new HashMap<>();
 
-    @Transactional
+
     @Async("taskExecutor")
     public void processStoreMaster() throws IOException {
         String absolutePath = fileService.getFilePath("STORE_MASTER");
@@ -115,7 +84,7 @@ public class DataProcessingService {
         }
     }
 
-    @Transactional
+
     @Async("taskExecutor")
     public void processUserMaster() throws IOException {
         String absolutePath = fileService.getFilePath("USER_MASTER");
@@ -155,7 +124,6 @@ public class DataProcessingService {
         }
     }
 
-    @Transactional
     @Async("taskExecutor")
     public void processStoreUserMapping() throws IOException {
         String absolutePath = fileService.getFilePath("STORE_USER_MAPPING");

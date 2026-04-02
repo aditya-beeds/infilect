@@ -5,11 +5,8 @@ spring:
       static-locations=classpath:/static/:
   servlet:
     multipart:
-      max:
-        file:
-          size: 100MB
-        request:
-          size: 100MB
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
     url: jdbc:postgresql://localhost:5433/test
     username: aditya123

@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.nio.file.Paths;
 @Configuration
 public class FileStorageConfig {
 
-    @Value("${file.upload-dir:classpath:static/uploads}")
+    @Value("${file.upload-dir:static/uploads}")
     private String uploadDir;
 
     @Getter
@@ -23,14 +24,13 @@ public class FileStorageConfig {
 
     @PostConstruct
     public void init() throws IOException {
-        // Get static directory path
-        File staticDir = ResourceUtils.getFile("classpath:static");
-        if (!staticDir.exists()) {
-            boolean mkdir = staticDir.mkdir();
-        }
+        // Get the classpath root
+        ClassPathResource resource = new ClassPathResource("");
+        Path classpathRoot = Paths.get(resource.getURI());
 
         // Create uploads directory inside static
-        uploadPath = Paths.get(staticDir.getAbsolutePath(), "uploads");
+        uploadPath = classpathRoot.resolve(uploadDir);
+
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }

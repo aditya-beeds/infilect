@@ -21,7 +21,7 @@ import java.util.Map;
 public class FileService {
 
     @Autowired
-    private  FileStorageConfig fileStorageConfig;
+    private FileStorageConfig fileStorageConfig;
 
     // Map to track uploaded files
     private final Map<String, String> uploadedFiles = new HashMap<>();
@@ -29,21 +29,13 @@ public class FileService {
     public FileUploadResponse saveFile(MultipartFile file, String category) throws IOException {
         Path uploadPath = fileStorageConfig.getUploadPath();
 
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        // Generate unique filename with timestamp
+        if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
         String timestamp = String.valueOf(System.currentTimeMillis());
         String originalFileName = file.getOriginalFilename();
-        String fileName = timestamp + "_" + category + "_" + originalFileName;
+        String fileName = category + "_" + originalFileName;
 
         Path filePath = uploadPath.resolve(fileName);
-
-        // Save file to static/uploads directory
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        // Track uploaded file with relative path for static access
         String relativePath = "/uploads/" + fileName;
         uploadedFiles.put(category, relativePath);
 
@@ -59,14 +51,12 @@ public class FileService {
         response.setUploadTime(LocalDateTime.now());
         response.setStatus("UPLOADED");
         response.setMessage("File uploaded successfully to static directory");
-
         return response;
     }
 
     public String getFilePath(String category) {
         String relativePath = uploadedFiles.get(category);
         if (relativePath != null) {
-            // Convert relative path to absolute path for reading
             try {
                 Path uploadPath = fileStorageConfig.getUploadPath();
                 String fileName = relativePath.substring(relativePath.lastIndexOf("/") + 1);
