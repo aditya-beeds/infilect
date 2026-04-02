@@ -1,0 +1,440 @@
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_MASTER_stores_master.csv
+ROW NUMBER: 6
+TIMESTAMP: 2026-04-03T02:33:16.105906552
+ROW DATA: [STR-0004, EXT-25333, store-lucknow-6, Store Nagpur #6, DMart, Express, Mumbai, Madhya Pradesh, India, North, 32.003326, 96.342079]
+ERROR TYPE: DataIntegrityViolationException
+ERROR MESSAGE: could not execute statement [ERROR: duplicate key value violates unique constraint "uk4esu4l0p74tqy71s32sofa65x"
+  Detail: Key (store_id)=(STR-0004) already exists.] [insert into store_master (city_id,country_id,created_on,is_active,latitude,longitude,modified_on,name,region_id,state_id,store_brand_id,store_external_id,store_id,store_type_id,title) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into store_master (city_id,country_id,created_on,is_active,latitude,longitude,modified_on,name,region_id,state_id,store_brand_id,store_external_id,store_id,store_type_id,title) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)]; constraint [uk4esu4l0p74tqy71s32sofa65x]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_MASTER_stores_master.csv
+ROW NUMBER: 12
+TIMESTAMP: 2026-04-03T02:33:16.195723749
+ROW DATA: [, EXT-88038, store-coimbatore-12, Store Kolkata #12, Reliance Fresh, Mini, Hyderabad, Uttar Pradesh, India, East, 30.121998, 93.100488]
+ERROR TYPE: ConstraintViolationException
+ERROR MESSAGE: Validation failed for classes [com.aditya.infilect.storemasterdb.entity.StoreMaster] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='Store ID must be between 1 and 255 characters', propertyPath=storeId, rootBeanClass=class com.aditya.infilect.storemasterdb.entity.StoreMaster, messageTemplate='Store ID must be between 1 and 255 characters'}
+	ConstraintViolationImpl{interpolatedMessage='Store ID is required', propertyPath=storeId, rootBeanClass=class com.aditya.infilect.storemasterdb.entity.StoreMaster, messageTemplate='Store ID is required'}
+]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_MASTER_stores_master.csv
+ROW NUMBER: 49
+TIMESTAMP: 2026-04-03T02:33:16.649596232
+ROW DATA: [STR-0049, EXT-31396, xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx, Store Chandigarh #49, Easyday, Supermarket, Delhi, Uttar Pradesh, India, North, 31.981324, 93.162634]
+ERROR TYPE: DataIntegrityViolationException
+ERROR MESSAGE: could not execute statement [ERROR: value too long for type character varying(255)] [insert into store_master (city_id,country_id,created_on,is_active,latitude,longitude,modified_on,name,region_id,state_id,store_brand_id,store_external_id,store_id,store_type_id,title) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into store_master (city_id,country_id,created_on,is_active,latitude,longitude,modified_on,name,region_id,state_id,store_brand_id,store_external_id,store_id,store_type_id,title) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_MASTER_stores_master.csv
+ROW NUMBER: 54
+TIMESTAMP: 2026-04-03T02:33:16.712070093
+ROW DATA: [STR-0054, EXT-96178, store-hyderabad-54, , Star Bazaar, Mini, Ahmedabad, Gujarat, India, South, 32.508082, 73.346842]
+ERROR TYPE: ConstraintViolationException
+ERROR MESSAGE: Validation failed for classes [com.aditya.infilect.storemasterdb.entity.StoreMaster] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='Title is required', propertyPath=title, rootBeanClass=class com.aditya.infilect.storemasterdb.entity.StoreMaster, messageTemplate='Title is required'}
+]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_MASTER_stores_master.csv
+ROW NUMBER: 91
+TIMESTAMP: 2026-04-03T02:33:17.153001834
+ROW DATA: [STR-0091, EXT-40635, store-nagpur-91,    , DMart, Hypermarket, Bengaluru, Kerala, India, South, 17.581722, 90.179667]
+ERROR TYPE: ConstraintViolationException
+ERROR MESSAGE: Validation failed for classes [com.aditya.infilect.storemasterdb.entity.StoreMaster] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='Title is required', propertyPath=title, rootBeanClass=class com.aditya.infilect.storemasterdb.entity.StoreMaster, messageTemplate='Title is required'}
+]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/USER_MASTER_users_master.csv
+ROW NUMBER: 8
+TIMESTAMP: 2026-04-03T02:33:25.846234235
+ROW DATA: [neha.sharma6, Anita, Patel, anita.singh56@infilect.com, 3, +917350127796, , True]
+ERROR TYPE: DataIntegrityViolationException
+ERROR MESSAGE: could not execute statement [ERROR: duplicate key value violates unique constraint "uk_users_username"
+  Detail: Key (username)=(neha.sharma6) already exists.] [insert into users (created_on,email,first_name,is_active,last_name,modified_on,phone_number,supervisor_id,user_type,username) values (?,?,?,?,?,?,?,?,?,?)]; SQL [insert into users (created_on,email,first_name,is_active,last_name,modified_on,phone_number,supervisor_id,user_type,username) values (?,?,?,?,?,?,?,?,?,?)]; constraint [uk_users_username]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/USER_MASTER_users_master.csv
+ROW NUMBER: 13
+TIMESTAMP: 2026-04-03T02:33:25.880546525
+ROW DATA: [arjun.kumar2, Arjun, Singh, arjun.kumar2@infilect.com, 99, +917599983416, meena.sharma46, True]
+ERROR TYPE: ConstraintViolationException
+ERROR MESSAGE: Validation failed for classes [com.aditya.infilect.usermasterdb.entity.UserMaster] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='User type must be 1, 2, 3, or 7', propertyPath=userType, rootBeanClass=class com.aditya.infilect.usermasterdb.entity.UserMaster, messageTemplate='User type must be 1, 2, 3, or 7'}
+]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/USER_MASTER_users_master.csv
+ROW NUMBER: 17
+TIMESTAMP: 2026-04-03T02:33:25.893046118
+ROW DATA: [nikhil.kumar51, Nikhil, Reddy, nikhil.kumar51@infilect.com, 1, +91ABC1234567, amit.sharma4, True]
+ERROR TYPE: NumberFormatException
+ERROR MESSAGE: For input string: "+91ABC1234567"
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/USER_MASTER_users_master.csv
+ROW NUMBER: 25
+TIMESTAMP: 2026-04-03T02:33:25.935732623
+ROW DATA: [, Ajay, Singh, ajay.sharma79@infilect.com, 2, +917872527806, , True]
+ERROR TYPE: ConstraintViolationException
+ERROR MESSAGE: Validation failed for classes [com.aditya.infilect.usermasterdb.entity.UserMaster] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='Username can only contain letters, numbers, dots, underscores and hyphens', propertyPath=username, rootBeanClass=class com.aditya.infilect.usermasterdb.entity.UserMaster, messageTemplate='Username can only contain letters, numbers, dots, underscores and hyphens'}
+	ConstraintViolationImpl{interpolatedMessage='Username is required', propertyPath=username, rootBeanClass=class com.aditya.infilect.usermasterdb.entity.UserMaster, messageTemplate='Username is required'}
+	ConstraintViolationImpl{interpolatedMessage='Username must be between 3 and 150 characters', propertyPath=username, rootBeanClass=class com.aditya.infilect.usermasterdb.entity.UserMaster, messageTemplate='Username must be between 3 and 150 characters'}
+]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/USER_MASTER_users_master.csv
+ROW NUMBER: 28
+TIMESTAMP: 2026-04-03T02:33:25.945360817
+ROW DATA: [rita.sharma21, Rita, Patel, not-an-email, 7, +919991362007, , True]
+ERROR TYPE: ConstraintViolationException
+ERROR MESSAGE: Validation failed for classes [com.aditya.infilect.usermasterdb.entity.UserMaster] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='Email should be valid', propertyPath=email, rootBeanClass=class com.aditya.infilect.usermasterdb.entity.UserMaster, messageTemplate='Email should be valid'}
+]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 2
+TIMESTAMP: 2026-04-03T02:33:31.045884238
+ROW DATA: [anita.singh56, STR-0034, 2026-03-22, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: anita.singh56
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 4
+TIMESTAMP: 2026-04-03T02:33:31.060395504
+ROW DATA: [ajay.sharma79, STR-0065, 2026-01-08, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: ajay.sharma79
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 11
+TIMESTAMP: 2026-04-03T02:33:31.141939924
+ROW DATA: [nonexistent.user, STR-0072, 2026-02-07, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: nonexistent.user
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 12
+TIMESTAMP: 2026-04-03T02:33:31.145729883
+ROW DATA: [phantom.person, STR-0049, 2026-04-14, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: phantom.person
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 16
+TIMESTAMP: 2026-04-03T02:33:31.186649677
+ROW DATA: [arjun.kumar2, STR-0021, 2026-03-28, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: arjun.kumar2
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 21
+TIMESTAMP: 2026-04-03T02:33:31.241481007
+ROW DATA: [sanjay.reddy92, STR-9999, 2026-02-07, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-9999
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 22
+TIMESTAMP: 2026-04-03T02:33:31.247089559
+ROW DATA: [rekha.patel44, INVALID-STORE, 2026-02-15, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: INVALID-STORE
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 24
+TIMESTAMP: 2026-04-03T02:33:31.261337988
+ROW DATA: [anita.singh56, STR-0006, 2026-04-17, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: anita.singh56
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 29
+TIMESTAMP: 2026-04-03T02:33:31.308147323
+ROW DATA: [sunita.reddy64, STR-0049, 2026-02-12, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0049
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 30
+TIMESTAMP: 2026-04-03T02:33:31.312515682
+ROW DATA: [ajay.sharma79, STR-0021, 2026-01-11, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: ajay.sharma79
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 31
+TIMESTAMP: 2026-04-03T02:33:31.316427706
+ROW DATA: [arjun.kumar2, STR-0011, 32-13-2025, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: arjun.kumar2
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 32
+TIMESTAMP: 2026-04-03T02:33:31.325235384
+ROW DATA: [ravi.reddy26, STR-0001, not-a-date, True]
+ERROR TYPE: DateTimeParseException
+ERROR MESSAGE: Text 'not-a-date' could not be parsed at index 0
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 33
+TIMESTAMP: 2026-04-03T02:33:31.33154911
+ROW DATA: [rekha.patel44, STR-0091, 2026-03-20, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0091
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 34
+TIMESTAMP: 2026-04-03T02:33:31.336170847
+ROW DATA: [vikas.kumar70, STR-0054, 2026-02-07, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0054
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 41
+TIMESTAMP: 2026-04-03T02:33:31.3955944
+ROW DATA: [rahul.patel26, STR-0031, 2026-01-10, True]
+ERROR TYPE: DataIntegrityViolationException
+ERROR MESSAGE: could not execute statement [ERROR: duplicate key value violates unique constraint "uk_user_store_date"
+  Detail: Key (user_id, store_id, date)=(9, 30, 2026-01-10) already exists.] [insert into permanent_journey_plans (created_on,date,is_active,modified_on,store_id,user_id) values (?,?,?,?,?,?)]; SQL [insert into permanent_journey_plans (created_on,date,is_active,modified_on,store_id,user_id) values (?,?,?,?,?,?)]; constraint [uk_user_store_date]
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 45
+TIMESTAMP: 2026-04-03T02:33:31.421453962
+ROW DATA: [ajay.sharma79, STR-0073, 2026-03-28, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: ajay.sharma79
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 47
+TIMESTAMP: 2026-04-03T02:33:31.433129995
+ROW DATA: [ajay.sharma79, STR-0054, 2026-02-01, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: ajay.sharma79
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 51
+TIMESTAMP: 2026-04-03T02:33:31.461631342
+ROW DATA: [deepa.kumar85, , 2026-03-10, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: 
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 61
+TIMESTAMP: 2026-04-03T02:33:31.569393708
+ROW DATA: [, STR-0078, 2026-01-21, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: 
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 65
+TIMESTAMP: 2026-04-03T02:33:31.594397228
+ROW DATA: [lata.reddy85, STR-0091, 2026-02-12, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0091
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 77
+TIMESTAMP: 2026-04-03T02:33:31.673649229
+ROW DATA: [amit.sharma4, STR-0086, 2025-12-22, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0086
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 82
+TIMESTAMP: 2026-04-03T02:33:31.712478767
+ROW DATA: [anita.singh56, STR-0013, 2026-02-16, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: anita.singh56
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 93
+TIMESTAMP: 2026-04-03T02:33:31.793118064
+ROW DATA: [anita.singh56, STR-0086, 2026-02-25, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: anita.singh56
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 95
+TIMESTAMP: 2026-04-03T02:33:31.800678075
+ROW DATA: [swati.kumar77, STR-0086, 2026-03-18, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0086
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 97
+TIMESTAMP: 2026-04-03T02:33:31.809069683
+ROW DATA: [arjun.kumar2, STR-0004, 2026-04-08, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: arjun.kumar2
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 102
+TIMESTAMP: 2026-04-03T02:33:31.839239977
+ROW DATA: [lata.reddy85, STR-0091, 2026-04-12, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0091
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 103
+TIMESTAMP: 2026-04-03T02:33:31.842656716
+ROW DATA: [arjun.kumar2, STR-0014, 2026-03-06, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: arjun.kumar2
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 108
+TIMESTAMP: 2026-04-03T02:33:31.888845343
+ROW DATA: [nikhil.kumar51, STR-0017, 2026-01-17, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: nikhil.kumar51
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 111
+TIMESTAMP: 2026-04-03T02:33:31.912325114
+ROW DATA: [anita.singh56, STR-0097, 2026-02-19, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: anita.singh56
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 115
+TIMESTAMP: 2026-04-03T02:33:31.948321663
+ROW DATA: [rekha.patel44, STR-0086, 2026-02-17, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0086
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 116
+TIMESTAMP: 2026-04-03T02:33:31.951366524
+ROW DATA: [ajay.sharma79, STR-0056, 2026-01-13, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: ajay.sharma79
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 119
+TIMESTAMP: 2026-04-03T02:33:31.97002534
+ROW DATA: [kavita.reddy32, STR-0054, 2026-01-13, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0054
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 120
+TIMESTAMP: 2026-04-03T02:33:31.97284808
+ROW DATA: [manoj.singh4, STR-0054, 2026-03-24, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0054
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 125
+TIMESTAMP: 2026-04-03T02:33:32.004992836
+ROW DATA: [nikhil.kumar51, STR-0023, 2026-03-25, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: nikhil.kumar51
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 127
+TIMESTAMP: 2026-04-03T02:33:32.030332978
+ROW DATA: [nikhil.kumar51, STR-0047, 2025-12-28, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: nikhil.kumar51
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 128
+TIMESTAMP: 2026-04-03T02:33:32.045024498
+ROW DATA: [meena.sharma46, STR-0012, 2026-02-25, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0012
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 129
+TIMESTAMP: 2026-04-03T02:33:32.053726911
+ROW DATA: [nikhil.kumar51, STR-0089, 2026-04-18, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: nikhil.kumar51
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 130
+TIMESTAMP: 2026-04-03T02:33:32.058713143
+ROW DATA: [arjun.kumar2, STR-0005, 2026-02-19, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: arjun.kumar2
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 134
+TIMESTAMP: 2026-04-03T02:33:32.104797528
+ROW DATA: [anita.singh56, STR-0053, 2026-02-19, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: User not found with id: anita.singh56
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 140
+TIMESTAMP: 2026-04-03T02:33:32.152537074
+ROW DATA: [ravi.reddy26, STR-0054, 2026-04-11, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0054
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 141
+TIMESTAMP: 2026-04-03T02:33:32.155828812
+ROW DATA: [rahul.patel26, STR-0054, 2026-01-28, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0054
+========================================
+========================================
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+ROW NUMBER: 143
+TIMESTAMP: 2026-04-03T02:33:32.168699063
+ROW DATA: [rekha.patel44, STR-0054, 2026-01-04, True]
+ERROR TYPE: IllegalArgumentException
+ERROR MESSAGE: Store not found with id: STR-0054
+========================================

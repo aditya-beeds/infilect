@@ -18,6 +18,6 @@ public class StoreMasterDTO {
     private String state;
     private String country;
     private String region;
-    private Float latitude;
-    private Float longitude;
+    private String latitude;
+    private String longitude;
 }

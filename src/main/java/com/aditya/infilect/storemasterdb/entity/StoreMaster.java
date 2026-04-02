@@ -20,70 +20,96 @@ import java.time.LocalDateTime;
 @Getter
 public class StoreMaster {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-        @NotBlank(message = "Store ID is required")
-        @Size(min = 1, max = 255, message = "Store ID must be between 1 and 255 characters")
-        @Column(name = "store_id", nullable = false, unique = true, length = 255)
-        private String storeId;
+    @NotBlank(message = "Store ID is required")
+    @Size(min = 1, max = 255, message = "Store ID must be between 1 and 255 characters")
+    @Column(name = "store_id", nullable = false, unique = true, length = 255)
+    private String storeId;
 
-        @Column(name = "store_external_id", length = 255)
-        private String storeExternalId = "";
+    @Column(name = "store_external_id", length = 255)
+    private String storeExternalId = "";
 
-        @NotBlank(message = "Name is required")
-        @Column(name = "name", nullable = false)
-        private String name;
+    @NotBlank(message = "Name is required")
+    @Column(name = "name", nullable = false)
+    private String name;
 
-        @NotBlank(message = "Title is required")
-        @Column(name = "title", nullable = false)
-        private String title;
+    @NotBlank(message = "Title is required")
+    @Column(name = "title", nullable = false)
+    private String title;
 
-        @ManyToOne
-        @JoinColumn(name = "store_brand_id", foreignKey = @ForeignKey(name = "fk_store_brand"))
-        @OnDelete(action = OnDeleteAction.SET_NULL)
-        private StoreBrands storeBrands;
+    @ManyToOne
+    @JoinColumn(name = "store_brand_id", foreignKey = @ForeignKey(name = "fk_store_brand"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private StoreBrands storeBrands;
 
-        @ManyToOne
-        @JoinColumn(name = "store_type_id", foreignKey = @ForeignKey(name = "fk_store_type"))
-        @OnDelete(action = OnDeleteAction.SET_NULL)
-        private StoreTypes storeType;
+    @ManyToOne
+    @JoinColumn(name = "store_type_id", foreignKey = @ForeignKey(name = "fk_store_type"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private StoreTypes storeType;
 
-        @ManyToOne
-        @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name = "fk_city"))
-        @OnDelete(action = OnDeleteAction.SET_NULL)
-        private Cities city;
+    @ManyToOne
+    @JoinColumn(name = "city_id", foreignKey = @ForeignKey(name = "fk_city"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Cities city;
 
-        @ManyToOne
-        @JoinColumn(name = "state_id", foreignKey = @ForeignKey(name = "fk_state"))
-        @OnDelete(action = OnDeleteAction.SET_NULL)
-        private States state;
+    @ManyToOne
+    @JoinColumn(name = "state_id", foreignKey = @ForeignKey(name = "fk_state"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private States state;
 
-        @ManyToOne
-        @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "fk_country"))
-        @OnDelete(action = OnDeleteAction.SET_NULL)
-        private Countries country;
+    @ManyToOne
+    @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "fk_country"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Countries country;
 
-        @ManyToOne
-        @JoinColumn(name = "region_id", foreignKey = @ForeignKey(name = "fk_region"))
-        @OnDelete(action = OnDeleteAction.SET_NULL)
-        private Regions region;
+    @ManyToOne
+    @JoinColumn(name = "region_id", foreignKey = @ForeignKey(name = "fk_region"))
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Regions region;
 
-        @Column(name = "latitude", columnDefinition = "FLOAT DEFAULT 0.0")
-        private Float latitude;
+    @Column(name = "latitude", columnDefinition = "FLOAT DEFAULT 0.0")
+    private Float latitude;
 
-        @Column(name = "longitude", columnDefinition = "FLOAT DEFAULT 0.0")
-        private Float longitude;
+    @Column(name = "longitude", columnDefinition = "FLOAT DEFAULT 0.0")
+    private Float longitude;
 
-        @Column(name = "is_active", columnDefinition = "BOOLEAN DEFAULT TRUE")
-        private Boolean isActive;
+    @Column(name = "is_active", columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean isActive;
 
-        @CreationTimestamp
-        @Column(name = "created_on", updatable = false)
-        private LocalDateTime createdOn;
+    @CreationTimestamp
+    @Column(name = "created_on", updatable = false)
+    private LocalDateTime createdOn;
 
-        @UpdateTimestamp
-        @Column(name = "modified_on")
-        private LocalDateTime modifiedOn;
+    @UpdateTimestamp
+    @Column(name = "modified_on")
+    private LocalDateTime modifiedOn;
+
+
+    public void setLatitude(String value) {
+        try {
+            float v = Float.parseFloat(value);
+            this.latitude = v;
+        } catch (NumberFormatException | NullPointerException e) {
+            this.latitude = 0.0f;
+        }
+    }
+
+    public void setLatitude(Float value) {
+        this.latitude = value;
+    }
+
+    public void setLongitude(String value) {
+        try {
+            this.longitude = Float.parseFloat(value);
+        } catch (NumberFormatException | NullPointerException e) {
+            this.longitude = 0.0f;
+        }
+    }
+
+    public void setLongitude(Float value) {
+        this.longitude = value;
+    }
 }

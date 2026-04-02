@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import com.aditya.infilect.storemasterdb.entity.*;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -65,7 +65,7 @@ public class DataProcessingService {
             while ((row = reader.readNext()) != null) {
                 rowNumber++;
                 try {
-                    StoreMasterDTO storeMasterDTO = new StoreMasterDTO(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], Float.parseFloat(row[10]), Float.parseFloat(row[11]));
+                    StoreMasterDTO storeMasterDTO = new StoreMasterDTO(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], (row[10]), (row[11]));
                     StoreMaster store = this.storeMasterService.createStore(storeMasterDTO);
                     log.debug("Saved row {}: {}", rowNumber, store.getStoreId());
                     successCount++;
@@ -74,7 +74,8 @@ public class DataProcessingService {
                     errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
                 }
                 entityManager.clear();
-                if (rowNumber % 1000 == 0) log.info("StoreMasterData.csv-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
+                if (rowNumber % 1000 == 0)
+                    log.info("StoreMasterData.csv-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
             }
             long duration = System.currentTimeMillis() - startTime;
             errorLogService.logSummary(absolutePath, rowNumber, successCount, errorCount, duration);
@@ -105,7 +106,7 @@ public class DataProcessingService {
             while ((row = reader.readNext()) != null) {
                 rowNumber++;
                 try {
-                    UserMasterDTO userMasterDTO= new UserMasterDTO(row[0], row[1], row[2], row[3], Integer.parseInt(row[4]),Long.parseLong( row[5]), row[6], row[7]);
+                    UserMasterDTO userMasterDTO = new UserMasterDTO(row[0], row[1], row[2], row[3], Integer.parseInt(row[4]), Long.parseLong(row[5]), row[6], row[7]);
                     UserMaster user = this.userMasterService.createUser(userMasterDTO);
                     log.debug("USER-MASTER-Saved row {}: {}", rowNumber, user.getUsername());
                     successCount++;
@@ -114,7 +115,8 @@ public class DataProcessingService {
                     errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
                 }
                 entityManager.clear();
-                if (rowNumber % 1000 == 0) log.info("USER-MASTER-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
+                if (rowNumber % 1000 == 0)
+                    log.info("USER-MASTER-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
             }
             long duration = System.currentTimeMillis() - startTime;
             errorLogService.logSummary(absolutePath, rowNumber, successCount, errorCount, duration);
@@ -146,14 +148,15 @@ public class DataProcessingService {
                 try {
                     PermanentJourneyPlanDTO permanentJourneyPlanDTO = new PermanentJourneyPlanDTO(row[0], row[1], row[2], row[3]);
                     PermanentJourneyPlan plan = this.permanentJourneyPlanService.createPlan(permanentJourneyPlanDTO);
-                    log.debug("STORE_USER_MAPPING-Saved row {}: {}:{}:{}", rowNumber, plan.getUserMaster().getUsername(),plan.getStoreMaster().getStoreId(),plan.getDate());
+                    log.debug("STORE_USER_MAPPING-Saved row {}: {}:{}:{}", rowNumber, plan.getUserMaster().getUsername(), plan.getStoreMaster().getStoreId(), plan.getDate());
                     successCount++;
                 } catch (Exception e) {
                     errorCount++;
                     errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
                 }
                 entityManager.clear();
-                if (rowNumber % 1000 == 0) log.info("STORE_USER_MAPPING-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
+                if (rowNumber % 1000 == 0)
+                    log.info("STORE_USER_MAPPING-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
             }
             long duration = System.currentTimeMillis() - startTime;
             errorLogService.logSummary(absolutePath, rowNumber, successCount, errorCount, duration);

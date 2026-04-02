@@ -1,0 +1,30 @@
+
+========================================
+IMPORT SUMMARY
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_MASTER_stores_master.csv
+TOTAL ROWS: 100
+SUCCESSFUL: 95
+FAILED: 5
+DURATION: 1349 ms
+COMPLETION TIME: 2026-04-03T02:33:17.212609206
+========================================
+
+========================================
+IMPORT SUMMARY
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/USER_MASTER_users_master.csv
+TOTAL ROWS: 30
+SUCCESSFUL: 25
+FAILED: 5
+DURATION: 180 ms
+COMPLETION TIME: 2026-04-03T02:33:25.952930424
+========================================
+
+========================================
+IMPORT SUMMARY
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORE_USER_MAPPING_store_user_mapping.csv
+TOTAL ROWS: 150
+SUCCESSFUL: 108
+FAILED: 42
+DURATION: 1196 ms
+COMPLETION TIME: 2026-04-03T02:33:32.215270028
+========================================

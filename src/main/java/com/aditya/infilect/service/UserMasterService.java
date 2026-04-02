@@ -32,11 +32,10 @@ public class UserMasterService {
                 userMasterDTO.getIsActive().equalsIgnoreCase("true"),
                 null,
                 null
-                );
-        Optional<UserMaster> byUsername = this.userRepository.findByUsername(userMasterDTO.getSupervisorUsername());
+        );
         if (userMasterDTO.getSupervisorUsername() != null && !userMasterDTO.getSupervisorUsername().trim().isEmpty()) {
             String supervisorName = userMasterDTO.getSupervisorUsername().trim();
-            UserMaster userMasterOfSuperVisor = userRepository.findByUsernameIgnoreCase(supervisorName)
+            UserMaster userMasterOfSuperVisor = userRepository.findByUsernameOrEmailPrefix(supervisorName)
                     .orElse(null);
             userMaster.setSupervisor(userMasterOfSuperVisor);
         }

@@ -31,8 +31,11 @@ public class PermanentJourneyPlanService {
 
 
         // Verify user exists (if using Integer IDs)
-        Optional<UserMaster> byUsername = userRepository.findByUsername(plan.getUsername());
+        Optional<UserMaster> byUsername = userRepository.findByUsernameOrEmailPrefix(plan.getUsername());
         if (byUsername.isEmpty()) {
+
+
+
             throw new IllegalArgumentException("User not found with id: " + plan.getUsername());
         }
 
