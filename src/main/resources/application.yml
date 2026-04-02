@@ -1,0 +1,25 @@
+
+spring:
+  web:
+    resources:
+      static-locations=classpath:/static/:
+  servlet:
+    multipart:
+      max:
+        file:
+          size: 100MB
+        request:
+          size: 100MB
+  datasource:
+    url: jdbc:postgresql://localhost:5433/test
+    username: aditya123
+    password: aditya123bt
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true

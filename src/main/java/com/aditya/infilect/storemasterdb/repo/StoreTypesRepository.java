@@ -1,0 +1,12 @@
+package com.aditya.infilect.storemasterdb.repo;
+
+import com.aditya.infilect.storemasterdb.entity.StoreTypes;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface StoreTypesRepository extends JpaRepository<StoreTypes, Long> {
+    Optional<StoreTypes> findByNameIgnoreCase(String name);
+}
