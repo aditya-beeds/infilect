@@ -38,3 +38,13 @@ FAILED: 5740
 DURATION: 3353263 ms
 COMPLETION TIME: 2026-04-03T03:55:17.646224122
 ========================================
+
+========================================
+IMPORT SUMMARY
+FILE: /home/adi/PythonProject/intern_assignment_candidate (1)/intern_assignment_candidate/infilect/target/classes/static/uploads/STORES_MASTER_500K_stores_master_500k.csv
+TOTAL ROWS: 500000
+SUCCESSFUL: 186600
+FAILED: 313400
+DURATION: 2424663 ms
+COMPLETION TIME: 2026-04-03T11:32:43.702473483
+========================================

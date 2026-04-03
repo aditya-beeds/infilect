@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class ErrorLogService {
 
-    private static final String ERROR_LOG_FILE = "csv_import_errors_500k_inBulk.log";
+    private static final String ERROR_LOG_FILE = "csv_import_errors_500k_inBulk_100.log";
     private static final String SUMMARY_LOG_FILE = "csv_import_summary.log";
 
     public void logRowError(String fileName, int rowNumber, String rowData, Exception error) {

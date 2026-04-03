@@ -5,7 +5,10 @@ import com.aditya.infilect.storemasterdb.entity.*;
 import com.aditya.infilect.storemasterdb.repo.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StoreMasterService {
@@ -108,6 +111,104 @@ public class StoreMasterService {
         }
 
         return storeMasterRepository.saveAndFlush(store);
+    }
+
+    @Transactional
+    public List<StoreMaster> createBulkStoreMaster(List<StoreMasterDTO> dtos) {
+
+        return dtos.stream().map(dto -> {
+            StoreMaster store = new StoreMaster(
+                    null,
+                    dto.getStoreId().trim(),
+                    dto.getStoreExternalId(),
+                    dto.getName().trim(),
+                    dto.getTitle().trim(),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+            store.setLatitude(dto.getLatitude());
+            store.setLongitude(dto.getLongitude());
+
+            if (dto.getStoreBrand() != null && !dto.getStoreBrand().trim().isEmpty()) {
+                String brandName = dto.getStoreBrand().trim();
+                StoreBrands brand = storeBrandRepository.findByNameIgnoreCase(brandName)
+                        .orElseGet(() -> {
+                            StoreBrands newBrand = new StoreBrands();
+                            newBrand.setName(brandName);
+                            return storeBrandRepository.save(newBrand);
+                        });
+                store.setStoreBrands(brand);
+            }
+
+
+            if (dto.getStoreType() != null && !dto.getStoreType().trim().isEmpty()) {
+                String typeName = dto.getStoreType().trim();
+                StoreTypes type = storeTypeRepository.findByNameIgnoreCase(typeName)
+                        .orElseGet(() -> {
+                            StoreTypes newType = new StoreTypes();
+                            newType.setName(typeName);
+                            return storeTypeRepository.save(newType);
+                        });
+                store.setStoreType(type);
+            }
+
+            if (dto.getCity() != null && !dto.getCity().trim().isEmpty()) {
+                String cityName = dto.getCity().trim();
+                Cities city = cityRepository.findByNameIgnoreCase(cityName)
+                        .orElseGet(() -> {
+                            Cities newCity = new Cities();
+                            newCity.setName(cityName);
+                            return cityRepository.save(newCity);
+                        });
+                store.setCity(city);
+            }
+
+
+            if (dto.getState() != null && !dto.getState().trim().isEmpty()) {
+                String stateName = dto.getState().trim();
+                States state = stateRepository.findByNameIgnoreCase(stateName)
+                        .orElseGet(() -> {
+                            States newState = new States();
+                            newState.setName(stateName);
+                            return stateRepository.save(newState);
+                        });
+                store.setState(state);
+            }
+
+
+            if (dto.getCountry() != null && !dto.getCountry().trim().isEmpty()) {
+                String countryName = dto.getCountry().trim();
+                Countries country = countryRepository.findByNameIgnoreCase(countryName)
+                        .orElseGet(() -> {
+                            Countries newCountry = new Countries();
+                            newCountry.setName(countryName);
+                            return countryRepository.save(newCountry);
+                        });
+                store.setCountry(country);
+            }
+
+
+            if (dto.getRegion() != null && !dto.getRegion().trim().isEmpty()) {
+                String regionName = dto.getRegion().trim();
+                Regions region = regionRepository.findByNameIgnoreCase(regionName)
+                        .orElseGet(() -> {
+                            Regions newRegion = new Regions();
+                            newRegion.setName(regionName);
+                            return regionRepository.save(newRegion);
+                        });
+                store.setRegion(region);
+            }
+
+            return store;
+        }).toList();
     }
 
 }

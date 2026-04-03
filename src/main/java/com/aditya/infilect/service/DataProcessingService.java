@@ -20,9 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -39,6 +37,8 @@ public class DataProcessingService {
     private PermanentJourneyPlanService permanentJourneyPlanService;
     @Autowired
     private ErrorLogService errorLogService;
+    @Autowired
+    private StoreMasterRepository storeMasterRepository;
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -166,6 +166,7 @@ public class DataProcessingService {
         }
     }
 
+    @Async("taskExecutor")
     public void processStoreMaster500K() {
         String absolutePath = fileService.getFilePath("STORES_MASTER_500K");
         if (absolutePath == null) throw new IllegalStateException("STORE master file not uploaded yet");
@@ -176,24 +177,32 @@ public class DataProcessingService {
         int successCount = 0;
         int errorCount = 0;
         int rowNumber = 0;
+        int bulk=100;
 
         log.info("Starting Store Master 500k import from: {}", "STORE_MASTER");
         try (CSVReader reader = new CSVReader(Files.newBufferedReader(csvPath, StandardCharsets.UTF_8))) {
             reader.readNext();
             String[] row;
             long startTime = System.currentTimeMillis();
+            List<StoreMasterDTO> storeMasterDTOSList= new ArrayList<>();
             while ((row = reader.readNext()) != null) {
                 rowNumber++;
                 try {
                     StoreMasterDTO storeMasterDTO = new StoreMasterDTO(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], (row[10]), (row[11]));
-                    StoreMaster store = this.storeMasterService.createStore(storeMasterDTO);
-                    log.debug("STORES_MASTER_500K Saved row {}: {}", rowNumber, store.getStoreId());
-                    successCount++;
+                    storeMasterDTOSList.add(storeMasterDTO);
+                    if(rowNumber%bulk==0){
+                        List<StoreMaster> bulkStoreMaster = this.storeMasterService.createBulkStoreMaster(storeMasterDTOSList);
+                        this.storeMasterRepository.saveAllAndFlush(bulkStoreMaster);
+                        entityManager.clear();
+                        successCount+=storeMasterDTOSList.size();
+                        storeMasterDTOSList.clear();
+                    }
+                    log.debug("STORES_MASTER_500K Saved row {}", rowNumber);
                 } catch (Exception e) {
-                    errorCount++;
+                    errorCount+=storeMasterDTOSList.size();
+                    storeMasterDTOSList.clear();
                     errorLogService.logRowError(absolutePath, rowNumber, Arrays.toString(row), e);
                 }
-                entityManager.clear();
                 if (rowNumber % 1000 == 0)
                     log.info("STORES_MASTER_500K.csv-Processed {} rows, Success: {}, Failed: {}", rowNumber, successCount, errorCount);
             }
